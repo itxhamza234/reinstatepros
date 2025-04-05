@@ -2,7 +2,7 @@ import React from 'react'
 import BubbleAnimation from '../animations/BubbleAnimation.jsx'
 const Whychooseus = () => {
   return (
-    <div className="relative pt-10 pb-52 text-center justify-center bg-blue-950"
+    <div className="relative pt-10 pb-52 text-center justify-center bg-blue-900"
     >
         <BubbleAnimation></BubbleAnimation>
       <h1 className='text-6xl lg:text-8xl font-bold  p-5  text-white'>Amazon <span className='bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500'>Experts</span> </h1>

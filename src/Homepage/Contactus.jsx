@@ -2,24 +2,24 @@ import React from 'react'
 
 const Contactus = () => {
     return (
-        <section className=" py-8 lg:py-16 px-40 mx-auto bg-orange-400 " >
+        <section className=" py-8 lg:py-16 px-40 mx-auto bg-blue-900 " >
 
-        <h1 className="text-6xl lg:text-7xl font-bold text-center text-black p-5 mt-5">
+        <h1 className="text-6xl lg:text-7xl font-bold text-center text-white p-5 mt-5">
          Contact{" "}
         <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
           us
         </span>
       </h1>
 
-        <p className="mb-8 lg:mb-16 font-light text-center text-black sm:text-xl">Got a technical issue? Want to send feedback about a beta feature? Need details about our Premium plan? Let us know.</p>
+        <p className="mb-8 lg:mb-16 font-light text-center text-whi text-white smte:text-xl">Got a technical issue? Want to send feedback about a beta feature? Need details about our Premium plan? Let us know.</p>
         <form action="#" className="space-y-8">
           <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
             <div className="flex-grow">
-              <label htmlFor="name" className="block mb-2 text-sm font-medium text-black">Your Name</label>
+              <label htmlFor="name" className="block mb-2 text-sm font-medium text-white">Your Name</label>
               <input type="text" id="name" className="shadow-sm bg-white border text-black border-black text-sm rounded-lg border-y-indigo-500 border-x-purple-600  w-full p-2.5 placeholder:text-black" placeholder="Your Name" required />
             </div>
             <div className="flex-grow">
-              <label htmlFor="email" className="block mb-2 text-sm font-medium text-black">Your Email</label>
+              <label htmlFor="email" className="block mb-2 text-sm font-medium text-white">Your Email</label>
               <input type="email" id="email" className="shadow-sm bg-white border text-black border-black text-sm rounded-lg border-y-indigo-500 border-x-purple-600  w-full p-2.5 placeholder:text-black" placeholder="name@gmail.com" required />
             </div>
           </div>

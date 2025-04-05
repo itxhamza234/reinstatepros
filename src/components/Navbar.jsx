@@ -18,17 +18,17 @@ const NavBar = () => {
   };
 
   return (
-    <div className="relative bg-white shadow-sm">
+    <div className="relative bg-blue-200 shadow-sm ">
       <div className="flex justify-between items-center px-8 py-4">
         {/* Logo */}
         <NavLink to="/" className="text-2xl font-bold text-blue-900">
-          Reinstatedpros
+          ERP
         </NavLink>
 
 
         {/* Navigation */}
         
-        <div className="flex items-center gap-8 text-sm font-semibold">
+        <div className="flex items-center gap-8 text-lg ">
         <NavLink to="/" className="text-blue-900 hover:text-blue-700">Home</NavLink>
 
           <div className="relative">
@@ -108,9 +108,9 @@ const NavBar = () => {
 
         {/* Contact Button */}
         <div className="flex gap-4">
-          <NavLink to="/contact" className="bg-blue-900 text-white px-4 py-2 rounded-md hover:bg-blue-800">
+          {/* <NavLink to="/contact" className="bg-blue-900 text-white px-4 py-2 rounded-md hover:bg-blue-800">
             Contact Us
-          </NavLink>
+          </NavLink> */}
         </div>
       </div>
     </div>
