@@ -1,0 +1,32 @@
+/* QuickAccess dropdown version */
+.quick-access-dropdown {
+    padding: 10px;
+    border-left: 1px solid #eee;
+    margin-left: 15px;
+  }
+  
+  .quick-access-dropdown h4 {
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  
+  .quick-access-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .quick-access-dropdown li {
+    margin: 5px 0;
+  }
+  
+  .quick-access-dropdown a {
+    color: #0066cc;
+    text-decoration: none;
+    font-size: 13px;
+  }
+  
+  .quick-access-dropdown a:hover {
+    text-decoration: underline;
+  }

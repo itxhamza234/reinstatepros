@@ -1,13 +1,16 @@
 import React, { useCallback } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { useNavigate } from 'react-router-dom';  // Navigation hook
 
-// Preload images for smoother transitions
-const preloadImages = ["amz1.jpg", "amz2.jpg", "amz3.jpg", "amz4.jpg"].forEach(img => {
+// Preload images
+["amz1.jpg", "amz2.jpg", "amz3.jpg", "amz4.jpg"].forEach(img => {
   new Image().src = `./public/${img}`;
 });
 
 const DemoCarousel = () => {
+    const navigate = useNavigate();
+
     const onChange = useCallback((index) => {
         console.log(`Slide changed to: ${index}`);
     }, []);
@@ -20,7 +23,7 @@ const DemoCarousel = () => {
         console.log(`Thumbnail clicked at index: ${index}`);
     }, []);
 
-    const renderOverlayContent = (title, subtitle, buttonText, phoneNumber, email) => (
+    const renderOverlayContent = (title, subtitle, buttonText, phoneNumber, email, route) => (
         <div style={{
             position: 'absolute',
             top: '50%',
@@ -43,13 +46,15 @@ const DemoCarousel = () => {
             }}>
                 {title}
             </h2>
-            <p style={{
-                fontSize: '1.2rem',
-                marginBottom: '0.5rem',
-                textShadow: '1px 1px 2px rgba(0,0,0,0.5)'
-            }}>
-                {subtitle}
-            </p>
+            {subtitle && (
+                <p style={{
+                    fontSize: '1.2rem',
+                    marginBottom: '0.5rem',
+                    textShadow: '1px 1px 2px rgba(0,0,0,0.5)'
+                }}>
+                    {subtitle}
+                </p>
+            )}
             {phoneNumber && (
                 <p style={{
                     fontSize: '1.5rem',
@@ -69,20 +74,22 @@ const DemoCarousel = () => {
                     {email}
                 </p>
             )}
-            <button style={{
-                padding: '12px 24px',
-                backgroundColor: '#FF9900',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                fontSize: '1rem',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                transition: 'background-color 0.3s ease',
-                pointerEvents: 'auto'
-            }}
-            onMouseOver={(e) => e.target.style.backgroundColor = '#e68a00'}
-            onMouseOut={(e) => e.target.style.backgroundColor = '#FF9900'}
+            <button
+                style={{
+                    padding: '12px 24px',
+                    backgroundColor: '#FF9900',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    fontSize: '1rem',
+                    fontWeight: 'bold',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.3s ease',
+                    pointerEvents: 'auto'
+                }}
+                onMouseOver={(e) => e.target.style.backgroundColor = '#e68a00'}
+                onMouseOut={(e) => e.target.style.backgroundColor = '#FF9900'}
+                onClick={() => navigate(route)}
             >
                 {buttonText}
             </button>
@@ -91,7 +98,7 @@ const DemoCarousel = () => {
 
     return (
         <div style={{ maxWidth: '1800px', maxHeight: 'auto', overflow: 'hidden' }}>
-            <Carousel 
+            <Carousel
                 showArrows={true}
                 showStatus={false}
                 showIndicators={true}
@@ -165,88 +172,34 @@ const DemoCarousel = () => {
                     )
                 }
             >
-                {/* First slide with Brand Registry */}
+
+                {/* Slide 1 */}
                 <div style={{ position: 'relative', height: '520px' }}>
-                    <img 
-                        src="./public/amz1.jpg" 
-                        alt="Brand Registry" 
-                        style={{ 
-                            width: '100%', 
-                            height: '100%', 
-                            objectFit: 'cover',
-                            willChange: 'transform'
-                        }} 
-                        loading="eager"
-                    />
-                    {renderOverlayContent(
-                        "Brand Registry",
-                        "Fix frustrating suspensions and problems",
-                        "GET STARTED"
-                    )}
+                    <img src="./public/amz1.jpg" alt="Brand Registry" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    {renderOverlayContent("Brand Registry", "Fix frustrating suspensions and problems", "GET STARTED", null, null, "/brand-registry")}
                 </div>
 
-                {/* Second slide with Amazon Appeal */}
+                {/* Slide 2 */}
                 <div style={{ position: 'relative', height: '520px' }}>
-                    <img 
-                        src="./public/amz2.jpg" 
-                        alt="Amazon Appeal" 
-                        style={{ 
-                            width: '100%', 
-                            height: '100%', 
-                            objectFit: 'cover',
-                            willChange: 'transform'
-                        }}
-                    />
-                    {renderOverlayContent(
-                        "Amazon Appeal",
-                        "Reinstate your Amazon account and ASINs",
-                        "GET STARTED"
-                    )}
+                    <img src="./public/amz2.jpg" alt="Amazon Appeal" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    {renderOverlayContent("Amazon Appeal", "Reinstate your Amazon account and ASINs", "GET STARTED", null, null, "/amazon-appeals")}
                 </div>
 
-                {/* Third slide with FBA Reimbursements */}
+                {/* Slide 3 */}
                 <div style={{ position: 'relative', height: '520px' }}>
-                    <img 
-                        src="./public/amz3.jpg" 
-                        alt="FBA Reimbursements" 
-                        style={{ 
-                            width: '100%', 
-                            height: '100%', 
-                            objectFit: 'cover',
-                            willChange: 'transform'
-                        }}
-                    />
-                    {renderOverlayContent(
-                        "FBA Reimbursements",
-                        "Get back every penny Amazon owes you",
-                        "GET STARTED"
-                    )}
+                    <img src="./public/amz3.jpg" alt="FundsDisbursement" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    {renderOverlayContent("FundsDisbursement", "Get back every penny Amazon owes you", "GET STARTED", null, null, "/funds-disbursement")}
                 </div>
 
-                {/* Fourth slide with Contact Information */}
+                {/* Slide 4 */}
                 <div style={{ position: 'relative', height: '520px' }}>
-                    <img 
-                        src="./public/amz4.jpg" 
-                        alt="Contact Us" 
-                        style={{ 
-                            width: '100%', 
-                            height: '100%', 
-                            objectFit: 'cover',
-                            willChange: 'transform'
-                        }}
-                        loading="lazy"
-                    />
-                    {renderOverlayContent(
-                        "Contact us today",
-                        "",
-                        "CONTACT US",
-                        "0307-7971099",
-                        "sales@riverbendconsulting.com"
-                    )}
+                    <img src="./public/amz4.jpg" alt="Contact Us" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    {renderOverlayContent("Contact us today", "", "CONTACT US", "0307-7971099", "info@amzreinstatementconsultant.com", "/contact-us")}
                 </div>
+
             </Carousel>
         </div>
     );
-}
+};
 
 export default DemoCarousel;
