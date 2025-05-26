@@ -1,205 +1,120 @@
-import React, { useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { useNavigate } from 'react-router-dom';  // Navigation hook
+import { useNavigate } from 'react-router-dom';
 
-// Preload images
-["amz1.jpg", "amz2.jpg", "amz3.jpg", "amz4.jpg"].forEach(img => {
-  new Image().src = `./public/${img}`;
-});
+// Image paths and overlay content
+const slides = [
+  {
+    image: "/amz1.jpg",
+    title: "Brand Registry",
+    subtitle: "Fix frustrating suspensions and problems",
+    buttonText: "GET STARTED",
+    route: "/brand-registry"
+  },
+  {
+    image: "/amz2.jpg",
+    title: "Amazon Appeal",
+    subtitle: "Reinstate your Amazon account and ASINs",
+    buttonText: "GET STARTED",
+    route: "/amazon-appeals"
+  },
+  {
+    image: "/amz3.jpg",
+    title: "FundsDisbursement",
+    subtitle: "Get back every penny Amazon owes you",
+    buttonText: "GET STARTED",
+    route: "/funds-disbursement"
+  },
+  {
+    image: "/amz4.jpg",
+    title: "Contact us today",
+    phoneNumber: "0307-7971099",
+    email: "info@amzreinstatementconsultant.com",
+    buttonText: "CONTACT US",
+    route: "/contact-us"
+  }
+];
 
 const DemoCarousel = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const onChange = useCallback((index) => {
-        console.log(`Slide changed to: ${index}`);
-    }, []);
+  // Preload images once
+  useEffect(() => {
+    slides.forEach(slide => {
+      const img = new Image();
+      img.src = slide.image;
+    });
+  }, []);
 
-    const onClickItem = useCallback((index) => {
-        console.log(`Item clicked at index: ${index}`);
-    }, []);
+  // Overlay UI
+  const renderOverlay = (slide) => (
+    <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center bg-black bg-opacity-50 px-4 sm:px-8 lg:px-16 z-10">
+      <h2 className="text-2xl sm:text-4xl font-bold mb-2 drop-shadow">{slide.title}</h2>
+      {slide.subtitle && <p className="text-base sm:text-lg mb-2">{slide.subtitle}</p>}
+      {slide.phoneNumber && <p className="text-lg font-semibold mb-1">{slide.phoneNumber}</p>}
+      {slide.email && <p className="text-base mb-4">{slide.email}</p>}
+      <button
+        className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded transition"
+        onClick={() => navigate(slide.route)}
+      >
+        {slide.buttonText}
+      </button>
+    </div>
+  );
 
-    const onClickThumb = useCallback((index) => {
-        console.log(`Thumbnail clicked at index: ${index}`);
-    }, []);
-
-    const renderOverlayContent = (title, subtitle, buttonText, phoneNumber, email, route) => (
-        <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            textAlign: 'center',
-            color: 'white',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            padding: '20px',
-            borderRadius: '8px',
-            width: '80%',
-            maxWidth: '600px',
-            pointerEvents: 'none'
-        }}>
-            <h2 style={{
-                fontSize: '2.5rem',
-                fontWeight: 'bold',
-                marginBottom: '1rem',
-                textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
-            }}>
-                {title}
-            </h2>
-            {subtitle && (
-                <p style={{
-                    fontSize: '1.2rem',
-                    marginBottom: '0.5rem',
-                    textShadow: '1px 1px 2px rgba(0,0,0,0.5)'
-                }}>
-                    {subtitle}
-                </p>
-            )}
-            {phoneNumber && (
-                <p style={{
-                    fontSize: '1.5rem',
-                    marginBottom: '0.5rem',
-                    textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
-                    fontWeight: 'bold'
-                }}>
-                    {phoneNumber}
-                </p>
-            )}
-            {email && (
-                <p style={{
-                    fontSize: '1.2rem',
-                    marginBottom: '2rem',
-                    textShadow: '1px 1px 2px rgba(0,0,0,0.5)'
-                }}>
-                    {email}
-                </p>
-            )}
+  return (
+    <div className="w-full max-w-screen-2xl mx-auto overflow-hidden">
+      <Carousel
+        showArrows={true}
+        showStatus={false}
+        showIndicators={true}
+        infiniteLoop={true}
+        showThumbs={false}
+        autoPlay={true}
+        interval={5000}
+        transitionTime={700}
+        swipeable={true}
+        emulateTouch={true}
+        stopOnHover={false}
+        useKeyboardArrows={true}
+        renderArrowPrev={(onClickHandler, hasPrev, label) =>
+          hasPrev && (
             <button
-                style={{
-                    padding: '12px 24px',
-                    backgroundColor: '#FF9900',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    fontSize: '1rem',
-                    fontWeight: 'bold',
-                    cursor: 'pointer',
-                    transition: 'background-color 0.3s ease',
-                    pointerEvents: 'auto'
-                }}
-                onMouseOver={(e) => e.target.style.backgroundColor = '#e68a00'}
-                onMouseOut={(e) => e.target.style.backgroundColor = '#FF9900'}
-                onClick={() => navigate(route)}
+              onClick={onClickHandler}
+              title={label}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-black rounded-full w-10 h-10 flex items-center justify-center z-20"
             >
-                {buttonText}
+              ❮
             </button>
-        </div>
-    );
-
-    return (
-        <div style={{ maxWidth: '1800px', maxHeight: 'auto', overflow: 'hidden' }}>
-            <Carousel
-                showArrows={true}
-                showStatus={false}
-                showIndicators={true}
-                onChange={onChange}
-                onClickItem={onClickItem}
-                onClickThumb={onClickThumb}
-                infiniteLoop={true}
-                showThumbs={false}
-                dynamicHeight={false}
-                autoPlay={true}
-                interval={5000}
-                transitionTime={500}
-                swipeable={true}
-                emulateTouch={true}
-                stopOnHover={false}
-                useKeyboardArrows={true}
-                renderArrowPrev={(onClickHandler, hasPrev, label) =>
-                    hasPrev && (
-                        <button
-                            type="button"
-                            onClick={onClickHandler}
-                            title={label}
-                            style={{
-                                position: 'absolute',
-                                zIndex: 2,
-                                top: '50%',
-                                left: 15,
-                                transform: 'translateY(-50%)',
-                                width: 40,
-                                height: 40,
-                                backgroundColor: 'rgba(255,255,255,0.5)',
-                                border: 'none',
-                                borderRadius: '50%',
-                                cursor: 'pointer',
-                                fontSize: '20px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                            }}
-                        >
-                            ❮
-                        </button>
-                    )
-                }
-                renderArrowNext={(onClickHandler, hasNext, label) =>
-                    hasNext && (
-                        <button
-                            type="button"
-                            onClick={onClickHandler}
-                            title={label}
-                            style={{
-                                position: 'absolute',
-                                zIndex: 2,
-                                top: '50%',
-                                right: 15,
-                                transform: 'translateY(-50%)',
-                                width: 40,
-                                height: 40,
-                                backgroundColor: 'rgba(255,255,255,0.5)',
-                                border: 'none',
-                                borderRadius: '50%',
-                                cursor: 'pointer',
-                                fontSize: '20px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                            }}
-                        >
-                            ❯
-                        </button>
-                    )
-                }
+          )
+        }
+        renderArrowNext={(onClickHandler, hasNext, label) =>
+          hasNext && (
+            <button
+              onClick={onClickHandler}
+              title={label}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/60 hover:bg-white text-black rounded-full w-10 h-10 flex items-center justify-center z-20"
             >
-
-                {/* Slide 1 */}
-                <div style={{ position: 'relative', height: '520px' }}>
-                    <img src="./public/amz1.jpg" alt="Brand Registry" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    {renderOverlayContent("Brand Registry", "Fix frustrating suspensions and problems", "GET STARTED", null, null, "/brand-registry")}
-                </div>
-
-                {/* Slide 2 */}
-                <div style={{ position: 'relative', height: '520px' }}>
-                    <img src="./public/amz2.jpg" alt="Amazon Appeal" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    {renderOverlayContent("Amazon Appeal", "Reinstate your Amazon account and ASINs", "GET STARTED", null, null, "/amazon-appeals")}
-                </div>
-
-                {/* Slide 3 */}
-                <div style={{ position: 'relative', height: '520px' }}>
-                    <img src="./public/amz3.jpg" alt="FundsDisbursement" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    {renderOverlayContent("FundsDisbursement", "Get back every penny Amazon owes you", "GET STARTED", null, null, "/funds-disbursement")}
-                </div>
-
-                {/* Slide 4 */}
-                <div style={{ position: 'relative', height: '520px' }}>
-                    <img src="./public/amz4.jpg" alt="Contact Us" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    {renderOverlayContent("Contact us today", "", "CONTACT US", "0307-7971099", "info@amzreinstatementconsultant.com", "/contact-us")}
-                </div>
-
-            </Carousel>
-        </div>
-    );
+              ❯
+            </button>
+          )
+        }
+      >
+        {slides.map((slide, index) => (
+          <div key={index} className="relative h-[60vh] sm:h-[70vh] lg:h-[80vh]">
+            <img
+              src={slide.image}
+              alt={slide.title}
+              className="w-full h-full object-cover"
+              loading={index === 0 ? "eager" : "lazy"}
+            />
+            {renderOverlay(slide)}
+          </div>
+        ))}
+      </Carousel>
+    </div>
+  );
 };
 
 export default DemoCarousel;

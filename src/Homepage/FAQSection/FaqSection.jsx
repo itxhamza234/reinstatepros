@@ -1,18 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const FaqSection = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [name, setName] = useState('');
   const [question, setQuestion] = useState('');
 
+  // Initialize AOS with once: false to allow replay of animation on scroll back
+  useEffect(() => {
+    AOS.init({ once: false, duration: 800, easing: 'ease-in-out' });
+    AOS.refresh();
+  }, []);
+
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
   const handleWhatsAppSubmit = () => {
+    if (!name.trim() || !question.trim()) {
+      alert('Please enter both your name and question.');
+      return;
+    }
     const message = `Name: ${name}\nQuestion: ${question}`;
     const encodedMessage = encodeURIComponent(message);
-    const phoneNumber = '923077971099'; // Replace with your WhatsApp number
+    const phoneNumber = '923077971099';
     window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
   };
 
@@ -42,14 +54,14 @@ const FaqSection = () => {
   return (
     <section id="faq" className="py-16 bg-blue-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-2 gap-12 items-start">
-          
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+
           {/* FAQ Section */}
-          <div>
-            <h2 className="text-3xl font-extrabold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-transparent bg-clip-text">
+          <div data-aos="flip-left" data-aos-once="false">
+            <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-transparent bg-clip-text">
               Frequently Asked Questions
             </h2>
-            <p className="text-gray-200 mb-8 text-base leading-relaxed">
+            <p className="text-gray-200 mb-8 text-base sm:text-lg leading-relaxed">
               Find answers to common questions about our Amazon reinstatement services.
             </p>
             <div className="space-y-4">
@@ -57,7 +69,9 @@ const FaqSection = () => {
                 <div
                   key={index}
                   className={`border rounded-lg transition-all duration-300 ${
-                    activeIndex === index ? 'border-blue-500 bg-white shadow-md' : 'border-gray-300 bg-white'
+                    activeIndex === index
+                      ? 'border-blue-500 bg-white shadow-md'
+                      : 'border-gray-300 bg-white'
                   }`}
                 >
                   <button
@@ -70,7 +84,7 @@ const FaqSection = () => {
                     </span>
                   </button>
                   {activeIndex === index && (
-                    <div className="px-6 pb-4 text-gray-600 text-sm leading-relaxed">
+                    <div className="px-6 pb-4 text-gray-600 text-sm sm:text-base leading-relaxed">
                       {faq.answer}
                     </div>
                   )}
@@ -80,8 +94,12 @@ const FaqSection = () => {
           </div>
 
           {/* Form Section */}
-          <div className="bg-[#002b5c] p-8 rounded-xl shadow-2xl">
-            <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-yellow-400 to-yellow-600 text-transparent bg-clip-text">
+          
+          <div
+            className="bg-[#002b5c] mt-12 md:mt-0 p-8 rounded-xl shadow-2xl"
+            data-aos="flip-right" data-aos-once="false"
+          >
+            <h3 className="text-2xl sm:text-3xl font-bold mb-6 bg-gradient-to-r from-yellow-400 to-yellow-600 text-transparent bg-clip-text">
               Ask Your Question
             </h3>
             <div className="space-y-5">
@@ -119,7 +137,10 @@ const FaqSection = () => {
           </div>
 
         </div>
+        
+        
       </div>
+      
     </section>
   );
 };
